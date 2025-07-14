@@ -1,0 +1,20 @@
+services:
+  kafka:
+    image: apache/kafka:latest
+    container_name: kafka-broker-controller-node-4
+    restart: unless-stopped
+    ports:
+      - 9092:9092
+      - 9093:9093
+    environment:
+      KAFKA_NODE_ID: 4
+      KAFKA_PROCESS_ROLES: broker, controller
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092, CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://10.0.4.225:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT, INTERNAL:PLAINTEXT, EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 2@10.0.3.247:9093, 3@10.0.4.225:9093, 4@10.0.5.113:9093
+      CLUSTER_ID: kafka-kraft-cluster
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+
